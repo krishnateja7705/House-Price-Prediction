@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>House Price Predictor</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", Arial, sans-serif;
+        background: linear-gradient(135deg, #6EE7B7, #3B82F6);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 40px;
+    }
+
+    /* MAIN HEADING */
+    .main-title {
+        font-size: 38px;
+        font-weight: 700;
+        color: white;
+        text-align: center;
+        margin-bottom: 25px;
+        text-shadow: 0px 3px 8px rgba(0,0,0,0.35);
+        letter-spacing: 1px;
+    }
+
+    .glass-card {
+        width: 380px;
+        padding: 30px;
+        background: rgba(255, 255, 255, 0.20);
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        backdrop-filter: blur(10px);
+        text-align: center;
+    }
+
+    h1 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 20px;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        font-size: 15px;
+        border-radius: 8px;
+        border: none;
+        background: rgba(255,255,255,0.25);
+        color: #fff;
+    }
+
+    input::placeholder {
+        color: #e7e7e7;
+    }
+
+    .amenities-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-top: 15px;
+    }
+
+    .amenity-item {
+        background: rgba(255,255,255,0.22);
+        border-radius: 12px;
+        padding: 12px;
+        text-align: center;
+        cursor: pointer;
+        color: white;
+        font-size: 14px;
+        font-weight: 500;
+        border: 2px solid transparent;
+        transition: 0.25s;
+    }
+
+    .amenity-item:hover {
+        background: rgba(255,255,255,0.35);
+    }
+
+    .amenity-item.selected {
+        border: 2px solid #1E90FF;
+        background: rgba(255,255,255,0.4);
+        font-weight: 600;
+    }
+
+    .amenity-icon {
+        font-size: 26px;
+        margin-bottom: 6px;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 15px;
+        font-size: 16px;
+        border: none;
+        border-radius: 10px;
+        background: #2563EB;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #1D4ED8;
+    }
+
+    .result-box {
+        margin-top: 20px;
+        background: rgba(255,255,255,0.3);
+        padding: 12px;
+        border-radius: 10px;
+        font-weight: 600;
+        color: #000;
+    }
+
+    .locations-box {
+        margin-top: 12px;
+        padding: 10px;
+        background: rgba(255,255,255,0.4);
+        border-radius: 10px;
+        text-align: left;
+        color: #000;
+    }
+</style>
+
+</head>
+<body>
+
+<!-- ⭐ NEW BIG TITLE ADDED HERE ⭐ -->
+<div class="main-title">🏡 HOUSE PRICE PREDICTION</div>
+
+<div class="glass-card">
+    <h1>Enter House Details</h1>
+
+    <form id="predictForm" method="post" action="/predict">
+
+        <input type="number" name="Area" placeholder="Area (sqft)" required>
+        <input type="number" name="Bedrooms" placeholder="Bedrooms" required>
+        <input type="number" name="Stories" placeholder="Stories" required>
+        <input type="number" name="Parking" placeholder="Parking Spaces" required>
+
+        <label style="font-size:15px; margin-top:15px;">Amenities</label>
+
+        <div class="amenities-grid" id="amenitiesList">
+
+            <div class="amenity-item" data-value="SwimmingPool">
+                <div class="amenity-icon">🏊‍♂️</div>
+                Swimming Pool
+            </div>
+
+            <div class="amenity-item" data-value="Gym">
+                <div class="amenity-icon">🏋️</div>
+                Gym
+            </div>
+
+            <div class="amenity-item" data-value="ClubHouse">
+                <div class="amenity-icon">🏛</div>
+                Club House
+            </div>
+
+            <div class="amenity-item" data-value="Park">
+                <div class="amenity-icon">🌳</div>
+                Park
+            </div>
+
+            <div class="amenity-item" data-value="Cycling">
+                <div class="amenity-icon">🚴</div>
+                Cycling Track
+            </div>
+
+            <div class="amenity-item" data-value="Security24x7">
+                <div class="amenity-icon">🛡</div>
+                24/7 Security
+            </div>
+
+            <div class="amenity-item" data-value="Laundry">
+                <div class="amenity-icon">🧺</div>
+                Laundry
+            </div>
+
+            <div class="amenity-item" data-value="WiFi">
+                <div class="amenity-icon">📶</div>
+                WiFi
+            </div>
+
+            <div class="amenity-item" data-value="PowerBackup">
+                <div class="amenity-icon">🔋</div>
+                Power Backup
+            </div>
+
+            <div class="amenity-item" data-value="ParcelLocker">
+                <div class="amenity-icon">📦</div>
+                Parcel Locker
+            </div>
+        </div>
+
+        <input type="hidden" name="Amenities" id="amenitiesField">
+
+        <button type="submit">Predict Price</button>
+    </form>
+
+    {% if result %}
+    <div class="result-box">
+        {{ result }}
+    </div>
+
+    <div class="locations-box">
+        <strong>📍 Suggested Locations:</strong><br>
+        {% for loc in locations %}
+            • {{ loc }}<br>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+</div>
+
+<script>
+const amenityItems = document.querySelectorAll(".amenity-item");
+const amenitiesField = document.getElementById("amenitiesField");
+
+amenityItems.forEach(item => {
+    item.addEventListener("click", () => {
+        item.classList.toggle("selected");
+        updateAmenities();
+    });
+});
+
+function updateAmenities() {
+    const selected = Array.from(document.querySelectorAll(".amenity-item.selected"))
+                          .map(x => x.dataset.value);
+    amenitiesField.value = selected.join(",");
+}
+</script>
+
+</body>
+</html>

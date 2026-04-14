@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Search</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Search for Houses or Apartments</h1>
+        <form id="search-form" class="mt-4">
+            <div class="form-group">
+                <label for="city">Select City</label>
+                <select id="city" class="form-control" name="city">
+                    <!-- Options will be populated dynamically -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="bhk">Select BHK</label>
+                <select id="bhk" class="form-control" name="bhk">
+                    <option value="1">1 BHK</option>
+                    <option value="2">2 BHK</option>
+                    <option value="3">3 BHK</option>
+                    <option value="4">4 BHK</option>
+                    <option value="5">5 BHK</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="size">Size (in sqft)</label>
+                <input type="number" class="form-control" id="size" name="size" placeholder="Enter minimum size">
+            </div>
+            <div class="form-group">
+                <label>Amenities</label><br>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="amenities" value="pool" id="pool">
+                    <label class="form-check-label" for="pool">Pool</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="amenities" value="gym" id="gym">
+                    <label class="form-check-label" for="gym">Gym</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="amenities" value="indoor" id="indoor">
+                    <label class="form-check-label" for="indoor">Indoor Facilities</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="amenities" value="park" id="park">
+                    <label class="form-check-label" for="park">Park</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="amenities" value="cycling" id="cycling">
+                    <label class="form-check-label" for="cycling">Cycling Facilities</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // JavaScript to populate city options and handle form submission
+        $(document).ready(function() {
+            // Populate city options from a predefined list or API
+            const cities = ["Mumbai", "Delhi", "Bangalore", "Chennai", "Kolkata", "Hyderabad", "Ahmedabad", "Pune", "Jaipur", "Surat", "Lucknow", "Kanpur", "Nagpur", "Visakhapatnam", "Indore", "Thane", "Bhopal", "Coimbatore", "Patna", "Vadodara"];
+            cities.forEach(city => {
+                $('#city').append(new Option(city, city));
+            });
+
+            $('#search-form').on('submit', function(event) {
+                event.preventDefault();
+                // Handle form submission and search logic here
+            });
+        });
+    </script>
+</body>
+</html>
